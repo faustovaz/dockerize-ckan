@@ -1,0 +1,23 @@
+#!/bin/bash
+until pg_isready -h db; do
+  sleep 5
+done 1> /dev/null 2> /dev/null
+
+paster --plugin=ckan db version -c "$CKAN_CONFIG" 1> /dev/null 2> /dev/null
+if [ $? -eq 1 ]; then
+  echo "Initialising database..."
+  paster --plugin=ckan db init -c "$CKAN_CONFIG" 2> /dev/null
+  while [ $? -ne 0 ]; do
+    sleep 5
+    paster --plugin=ckan db init -c "$CKAN_CONFIG" 2> /dev/null
+  done
+fi
+
+paster --plugin=ckan sysadmin list -c "$CKAN_CONFIG"  | grep "name=admin" 1> /dev/null 2> /dev/null
+if [ $? -eq 1 ]; then
+  echo "Adding admin user ..."
+  /bin/add_admin admin admin@admin.com "$CKAN_CONFIG"
+fi
+
+python /usr/lib/ckan/default/datapusher/datapusher/main.py /usr/lib/ckan/default/datapusher/deployment/datapusher_settings.py 2> datapusher.log &
+paster serve "$CKAN_CONFIG"

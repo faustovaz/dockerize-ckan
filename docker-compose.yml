@@ -1,0 +1,31 @@
+version: "3"
+services:
+  ckan:
+    build: ./ckan
+    image: ckan/ckan
+    container_name: ckan
+    depends_on:
+      - db
+      - solr
+      - redis
+    links:
+      - db:db
+      - solr:solr
+      - redis:redis
+    ports:
+      - "5000:5000"
+  db:
+    build: ./postgresql
+    image: ckan/postgresql
+    container_name: db
+    volumes:
+      - data:/var/lib/postgresql/data
+  solr:
+    image: ckan/solr
+    build: ./solr
+    container_name: solr
+  redis:
+    image: redis
+    container_name: redis
+volumes:
+  data:

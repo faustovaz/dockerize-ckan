@@ -1,0 +1,14 @@
+#!/usr/bin/expect
+
+set user [lindex $argv 0];
+set email [lindex $argv 1];
+set config [lindex $argv 2];
+
+spawn paster --plugin=ckan sysadmin add "$user" email="$email" -c "$config"
+expect "Create new user: $user?"
+send "y\n"
+expect "Password: "
+send "admin\n"
+expect "Confirm password: "
+send "admin\n"
+expect eof
