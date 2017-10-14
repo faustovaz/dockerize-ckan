@@ -28,7 +28,7 @@ WORKDIR /usr/lib/ckan/default
 RUN wget https://raw.githubusercontent.com/ckan/ckan/master/requirement-setuptools.txt && \
     pip install --upgrade pip && \
     pip install -r requirement-setuptools.txt && \
-    pip install -e 'git+https://github.com/ckan/ckan.git@ckan-2.7.0#egg=ckan' && \
+    pip install -e 'git+https://github.com/ckan/ckan.git@ckan-2.7.2#egg=ckan' && \
     pip install -r /usr/lib/ckan/default/src/ckan/requirements.txt && \
     git clone https://github.com/ckan/datapusher && \
     pip install --upgrade pip && \
