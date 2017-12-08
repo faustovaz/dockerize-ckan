@@ -31,7 +31,6 @@ RUN wget https://raw.githubusercontent.com/ckan/ckan/master/requirement-setuptoo
     pip install -e 'git+https://github.com/ckan/ckan.git@ckan-2.7.2#egg=ckan' && \
     pip install -r /usr/lib/ckan/default/src/ckan/requirements.txt && \
     git clone https://github.com/ckan/datapusher && \
-    pip install --upgrade pip && \
     pip install -r datapusher/requirements.txt && \
     pip install -e datapusher/
 
