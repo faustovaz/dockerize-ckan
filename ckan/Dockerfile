@@ -1,4 +1,4 @@
-from ubuntu:xenial
+FROM ubuntu:xenial
 
 RUN apt-get update && apt-get install -y python-dev \
     postgresql \
